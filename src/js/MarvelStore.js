@@ -27,7 +27,7 @@ const Comic = (title, desc, imgUrl) => {
   @observable searchInput = ""
   @observable characterRes = []
   @observable currentId = 0
-  @observable comicRes = []
+  @observable comicRes = ['Loading']
   @observable showComics = false
 
   @action changeSearch(value) {
@@ -58,11 +58,15 @@ const Comic = (title, desc, imgUrl) => {
   }
 
   @computed get comicList() {
-    return this.comicRes.map(obj => {
-      const desc = (obj.textObjects[0] !== undefined) ? obj.textObjects[0].text : 'No description.'
-      const imgPath = (obj.images[0] !== undefined) ? obj.images[0].path : 'No Image.'
-      return Comic(obj.title, desc, obj.images[0].path)
-    })
+    if (this.comicRes[0] === 'Loading') {
+      return 'Loading'
+    } else {
+      return this.comicRes.map(obj => {
+        const desc = (obj.textObjects[0] !== undefined) ? obj.textObjects[0].text : 'No description.'
+        const imgPath = (obj.images[0] !== undefined) ? obj.images[0].path : 'No Image.'
+        return Comic(obj.title, desc, imgPath)
+      })
+    }
   }
 
   @action reset() {
@@ -71,5 +75,7 @@ const Comic = (title, desc, imgUrl) => {
     this.comicRes = []
     this.characterRes = []
   }
+
 }
+
 export default new MarvelStore

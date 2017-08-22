@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { TimelineMax } from 'gsap'
+import { observer } from 'mobx-react'
 
+@observer
 export default class AnimatedInput extends Component {
   componentDidMount() {
-    if (!this.props.store.showComics) {
-      const openAni = new TimelineMax();
+    const openAni = new TimelineMax()
+    if (!this.props.store.showComics && this.props.store.searchInput.length < 1) {
       openAni.fromTo(".Centerpiece", 1, {width: 0}, {width: '75%'})
              .to(".Centerpiece", .5, {width: 0}, '+=.75')
              .to(".intialText", 0, {display: 'none'})
@@ -16,10 +18,15 @@ export default class AnimatedInput extends Component {
              .to(".Search", 0, {display: 'inline'})
              .to(".Search", 1, {width: '80vw'})
       setTimeout(() => { this.textInput.focus() }, 5500)
+    } else {
+      openAni.set('.Centerpiece', {display: 'none'})
+             .set('.Search', {display: 'inline', width: '80vw'})
+             .set('.AnimatedInput', {css:{'margin-top': 0, 'position': 'fixed' }})
     }
   }
 
   render() {
+    console.log(this.props.store)
     return(
       <div className="AnimatedInput">
         <input className="Search" type="text"

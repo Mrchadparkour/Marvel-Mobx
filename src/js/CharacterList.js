@@ -8,14 +8,14 @@ export default class CharacterList extends Component {
 
   handleClick(name, id) {
     this.props.store.getComics(id)
-    this.props.store.searchInput = name
+    this.props.store.changeSearch(name)
     this.props.store.characterRes = []
 
     const comicShift = new TimelineMax();
 
     comicShift.to(".AnimatedInput", .5, {css:{"margin-top": 0}})
 
-    setTimeout(() => this.props.store.showComics = true, 3000)
+    setTimeout(() => this.props.store.showComics = true, 1000)
   }
   render(){
     const { searchInput, changeSearch, characterList, comicList } = this.props.store
