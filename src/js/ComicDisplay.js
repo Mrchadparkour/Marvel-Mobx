@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
+import AnimatedInput from './AnimatedInput'
 
 @observer
 export default class ComicDisplay extends Component {

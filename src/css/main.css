@@ -61,7 +61,7 @@ body {
 }
 
 .ComicDisplay {
-  display: none;
+  display: flex;
   flex-wrap: nowrap;
   margin-top: 15vh;
 }

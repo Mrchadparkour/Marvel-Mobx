@@ -51,7 +51,6 @@ const Comic = (title, desc, imgUrl) => {
   }
 
   @action getComics(charId) {
-    this.showComics = true
     let url = 'https://gateway.marvel.com/v1/public/characters/'+ charId +'/comics?hasDigitalIssue=true&orderBy=onsaleDate&ts='+ getTimeStamp() +'&apikey='+ PUBLIC_KEY +'&hash='+ getHash()
       axios.get(url)
            .then(res => this.comicRes = res.data.data.results)

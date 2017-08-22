@@ -3,18 +3,20 @@ import { TimelineMax } from 'gsap'
 
 export default class AnimatedInput extends Component {
   componentDidMount() {
-    const openAni = new TimelineMax();
-    openAni.fromTo(".Centerpiece", 1, {width: 0}, {width: '75%'})
-           .to(".Centerpiece", .5, {width: 0}, '+=.75')
-           .to(".intialText", 0, {display: 'none'})
-           .to(".nextText", 0, {display: 'inline'}, '-=.1')
-           .to(".Centerpiece", 1, {width: '85%'})
-           .to(".Centerpiece", .5, {width: 0}, '+=.75')
-           .to(".Centerpiece", .5, {rotation: 90,transformOrigin:"left bottom"})
-           .to(".Centerpiece", 0, {display: 'none'})
-           .to(".Search", 0, {display: 'inline'})
-           .to(".Search", 1, {width: '80vw'})
-    setTimeout(() => { this.textInput.focus() }, 5500)
+    if (!this.props.store.showComics) {
+      const openAni = new TimelineMax();
+      openAni.fromTo(".Centerpiece", 1, {width: 0}, {width: '75%'})
+             .to(".Centerpiece", .5, {width: 0}, '+=.75')
+             .to(".intialText", 0, {display: 'none'})
+             .to(".nextText", 0, {display: 'inline'}, '-=.1')
+             .to(".Centerpiece", 1, {width: '85%'})
+             .to(".Centerpiece", .5, {width: 0}, '+=.75')
+             .to(".Centerpiece", .5, {rotation: 90,transformOrigin:"left bottom"})
+             .to(".Centerpiece", 0, {display: 'none'})
+             .to(".Search", 0, {display: 'inline'})
+             .to(".Search", 1, {width: '80vw'})
+      setTimeout(() => { this.textInput.focus() }, 5500)
+    }
   }
 
   render() {
