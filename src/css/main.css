@@ -59,3 +59,25 @@ body {
   width: 80vw;
   position: relative;
 }
+
+.ComicDisplay {
+  display: none;
+  flex-wrap: nowrap;
+  margin-top: 15vh;
+}
+.ComicDisplay img {
+  transition-duration: .5s;
+   box-shadow: 2px 2px 3px #FFFFFF;
+ }
+
+.ComicDisplay img:hover{
+  transform: scale(1.5);
+  margin-left: 10vw;
+  margin-right: 10vw;
+}
+
+.ComicFormat {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}

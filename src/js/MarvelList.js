@@ -1,23 +1,17 @@
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
-import { getHash, getTimeStamp, PUBLIC_KEY } from './constants'
-import AnimatedInput from './AnimatedInput'
+import CharacterList from './CharacterList'
+import ComicDisplay from './ComicDisplay'
 
 @observer
 export default class MarvelList extends Component {
 
   render(){
-    const { searchInput, changeSearch, characterList, getComics } = this.props.store;
+    const { store, showComics } = this.props
 
-    return(
-      <div>
-            <AnimatedInput store={this.props.store} />
-            <div className="CharacterNames">
-              {
-                characterList.map(character => <div onClick={ () => getComics(character.id) } key={character.id}>{ character.name }</div> )
-              }
-          </div>
-      </div>
-    )
+    console.log(this.props.store.showComics, this.props.store.comicList)
+
+    return this.props.store.showComics ? <ComicDisplay store={store} /> : <CharacterList store={store} />
+
   }
 }

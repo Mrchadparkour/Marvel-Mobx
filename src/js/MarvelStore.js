@@ -23,11 +23,12 @@ const Comic = (title, desc, imgUrl) => {
   }
 }
 
-export class MarvelStore {
+ export class MarvelStore {
   @observable searchInput = ""
   @observable characterRes = []
   @observable currentId = 0
   @observable comicRes = []
+  @observable showComics = false
 
   @action changeSearch(value) {
     this.searchInput = value
@@ -46,20 +47,30 @@ export class MarvelStore {
   }
 
   @computed get characterList() {
-    return this.characterRes.map(obj => MarvelCharacter(obj.id, obj.name, obj.description, obj))
+    return this.characterRes.map(obj => MarvelCharacter(obj.id, obj.name, obj.description))
   }
 
   @action getComics(charId) {
-    console.log(this);
+    this.showComics = true
     let url = 'https://gateway.marvel.com/v1/public/characters/'+ charId +'/comics?hasDigitalIssue=true&orderBy=onsaleDate&ts='+ getTimeStamp() +'&apikey='+ PUBLIC_KEY +'&hash='+ getHash()
-    axios.get(url)
-         .then(res => this.comicRes = res.data.data.results)
-         .catch((err) => console.log(err))
+      axios.get(url)
+           .then(res => this.comicRes = res.data.data.results)
+           .catch((err) => console.log(err))
   }
 
   @computed get comicList() {
-    return this.comicRes.map(obj => Comic(obj.title, obj.textObjects[0].text, obj.images[0].path))
+    return this.comicRes.map(obj => {
+      const desc = (obj.textObjects[0] !== undefined) ? obj.textObjects[0].text : 'No description.'
+      const imgPath = (obj.images[0] !== undefined) ? obj.images[0].path : 'No Image.'
+      return Comic(obj.title, desc, obj.images[0].path)
+    })
+  }
+
+  @action reset() {
+    this.showComics = false
+    this.searchInput = ""
+    this.comicRes = []
+    this.characterRes = []
   }
 }
-
 export default new MarvelStore
