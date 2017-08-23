@@ -3,6 +3,7 @@
 import { computed, observable, action } from 'mobx'
 import { fromPromise } from 'mobx-utils'
 import axios from 'axios'
+import React from 'react'
 import { getTimeStamp, PUBLIC_KEY, getHash } from './constants'
 
 const MarvelCharacter = (id, name, desc) => {
@@ -13,10 +14,11 @@ const MarvelCharacter = (id, name, desc) => {
   }
 }
 
-const Comic = (title, desc, imgUrl) => {
+const Comic = (title, desc, id, imgUrl) => {
   return {
     title: title,
     desc: desc,
+    id,
     showImg: () => {
       return imgUrl + "/portrait_uncanny.jpg"
     }
@@ -26,13 +28,19 @@ const Comic = (title, desc, imgUrl) => {
  export class MarvelStore {
   @observable searchInput = ""
   @observable characterRes = []
-  @observable currentId = 0
+  @observable first = true
   @observable comicRes = ['Loading']
   @observable showComics = false
 
   @action changeSearch(value) {
-    this.searchInput = value
-    this.getCharacters()
+    if (!this.showComics){
+      this.searchInput = value
+      this.getCharacters()
+    }
+    else {
+      this.reset()
+    }
+
   }
 
   @computed get characterUrl() {
@@ -58,22 +66,39 @@ const Comic = (title, desc, imgUrl) => {
   }
 
   @computed get comicList() {
-    if (this.comicRes[0] === 'Loading') {
-      return 'Loading'
-    } else {
-      return this.comicRes.map(obj => {
-        const desc = (obj.textObjects[0] !== undefined) ? obj.textObjects[0].text : 'No description.'
-        const imgPath = (obj.images[0] !== undefined) ? obj.images[0].path : 'No Image.'
-        return Comic(obj.title, desc, imgPath)
-      })
-    }
+      if (this.comicRes[0] === 'Loading') {
+        return 'Loading'
+      } else {
+        return this.comicRes.map(obj => {
+          const desc = (obj.textObjects[0] !== undefined) ? obj.textObjects[0].text : 'No description.'
+          const imgPath = (obj.images[0] !== undefined) ? obj.images[0].path : 'No Image.'
+          return Comic(obj.title, desc, obj.id, imgPath)
+        })
+      }
+  }
+
+  @computed get displayComics() {
+    let Display
+
+    if (this.comicList === 'Loading')
+      Display = <h2>Loading...</h2>
+    else
+      Display = this.comicList.length < 1 ? <p>No Comics</p> : this.comicList.map((comic, i) =>{
+        return (
+          <div key={comic.id} className="ComicHolder">
+           <p className={"desc" + i +' descText'}>{comic.desc}</p>
+           <img key={comic.id} src={comic.showImg()} className={"comic" + i} />
+          </div>
+        )
+       })
+
+    return Display
   }
 
   @action reset() {
-    this.showComics = false
     this.searchInput = ""
-    this.comicRes = []
-    this.characterRes = []
+    this.comicRes = ['Loading']
+    this.showComics = false
   }
 
 }

@@ -1,20 +1,24 @@
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
 import AnimatedInput from './AnimatedInput'
+import { comicSelector } from './Greensock'
 
 @observer
 export default class ComicDisplay extends Component {
 
+  componentDidMount() {
+    comicSelector()
+  }
+
   render(){
-    const { comicList } = this.props.store
+    const { displayComics } = this.props.store
     return(
       <div className="ComicFormat">
         <AnimatedInput store={this.props.store} />
         <div className="ComicDisplay">
-          {
-            (comicList === 'Loading') ? <p>Loading...</p> : (comicList.length < 1) ? <p>No Comics</p> : comicList.map(comic => <img key={comic.title} src={comic.showImg()} />)
-          }
+          { displayComics }
         </div>
+        <h1>&larr; Use arrow keys to navigate & space to select &rarr;</h1>
       </div>
     )
   }

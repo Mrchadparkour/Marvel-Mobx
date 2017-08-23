@@ -5,6 +5,7 @@ html,
 body {
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
 }
 
 body {
@@ -12,8 +13,7 @@ body {
   color: white;
   display: flex;
   justify-content: center;
-  background-image: radial-gradient(circle at 50vw 50vh, #e23636 85%, #000000 100%);
-  background-image: linear-gradient(#e23636 30%, #000000 110%)
+  background-image: linear-gradient(#e23636 30%, #000000 110%);
 }
 .Centerpiece {
   border: 3px solid white;
@@ -63,22 +63,34 @@ body {
 .ComicDisplay {
   display: flex;
   flex-wrap: nowrap;
-  margin-top: 15vh;
+  margin-top: 30vh;
+  position: absolute;
+  left: 30vw;
 }
 .ComicDisplay img {
-  transition-duration: .5s;
    box-shadow: 2px 2px 3px #FFFFFF;
+   margin: 2vw;
  }
-
-.ComicDisplay img:hover{
-  transform: scale(1.5);
-  margin-left: 10vw;
-  margin-right: 10vw;
-}
 
 .ComicFormat {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
+}
+.ComicFormat h1 {
+  position: absolute;
+  bottom: 1px;
+}
+
+.descText {
+  position: absolute;
+  display: none;
+  width: 15vw;
+  z-index: 3;
+}
+.ComicHolder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

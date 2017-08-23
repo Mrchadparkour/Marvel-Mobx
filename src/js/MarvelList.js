@@ -7,9 +7,7 @@ import ComicDisplay from './ComicDisplay'
 export default class MarvelList extends Component {
 
   render(){
-    const { store, showComics } = this.props
-
-    console.log(this.props.store.showComics, this.props.store.comicList)
+    const { store } = this.props
 
     return this.props.store.showComics ? <ComicDisplay store={store} /> : <CharacterList store={store} />
 
